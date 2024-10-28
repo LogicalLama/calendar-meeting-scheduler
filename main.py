@@ -1,4 +1,5 @@
 from calendar_scheduler.google_calendar import authenticate_google_calendar, schedule_meeting
+from calendar_scheduler.schedule_with_functioncall import openai_schedule_meeting_via_function_call
 from calendar_scheduler.transcript_parser import openai_parse_transcript
 from calendar_scheduler.time_processor import process_call_time
 
@@ -18,17 +19,17 @@ def main():
     
     for idx, transcript in enumerate(transcripts):
         print(f"Processing transcript {idx + 1}:")
-        
+
         # Extract call time from transcript
         call_time_str = openai_parse_transcript(transcript)
         print(f"Extracted call time: {call_time_str}")
-        
+
         # Convert the extracted call time to datetime object
         call_time = process_call_time(call_time_str)
         print(f"Scheduling call at: {call_time}")
-        
-        # Schedule the meeting on Google Calendar
-        schedule_meeting(service, call_time, attendees)
+
+        # Schedule the meeting using OpenAI's function calling
+        openai_schedule_meeting_via_function_call(call_time, attendees)
         print(f"Meeting scheduled for Transcript {idx + 1}\n")
 
 if __name__ == '__main__':
